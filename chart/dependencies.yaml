@@ -1,0 +1,6 @@
+dependencies:
+  build:
+    - name: base-image
+      version: 1.0.0
+      repository: {{ .Values.repo }}
+      path: /base-image

@@ -1,0 +1,56 @@
+Image:
+  repository: localhost:5000
+  name: mongodb
+  tag: "1.0.0"
+  pullPolicy: Always
+
+BaseImage:
+  repository: localhost:5000
+  name: base-image
+  tag: "1.0.0"
+  
+# replicaCount is the number of Pods that are going to be started initially
+replicaCount: 1
+# maxReplicaCount is the maximum number of Pods that are going to be started
+maxReplicaCount: 5
+maxUnavailable: 1
+
+name: "mongodb"
+namespace: "default"
+
+# resources controls on which node the Pod will be deployed and how many CPU and memory it needs
+resources:
+  # limits is the limit of a particular resource
+  limits:
+    # memory is the memory limit requested
+    memory: 1500Mi
+    # cpu is the CPU limit requested
+    cpu: 0.5
+  # requests is the request of a particular resource
+  requests:
+    # memory is how much memory is requested
+    memory: 1500Mi
+    # cpu is how much CPU is requested
+    cpu: 0.2
+    # storage is how much physical storage is requested
+    storage: 5Gi
+    className: standard
+
+Component: "mongodb"
+StorageClass: standard
+StorageBasePath: "/home"
+
+MONGO_VARS:
+  DOT_port: 27017
+  DOT_logappend: "true"
+  DOT_smallfiles: "true"
+  DOT_bind_ip: "0.0.0.0"
+
+
+
+service:
+  port: 81
+
+podAnnotations: {
+  kubernetes-auth-vault-operator-approle-name: "mongodb"
+}
